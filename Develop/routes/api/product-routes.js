@@ -5,13 +5,12 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 
 // get all products
 router.get('/', async (req, res) => {
- 	// This retrieves all products and its categories and tags, models of 'Category' and 'Tag' must be included.
+ 	// This retrieves all products and its categories and tags, models of 'product' and 'Tag' must be included.
 	try {
-		const product = await tag.findAll({
-			include: [{ Category }],
-			include: [{ Tag }],
+		const product = await Product.findAll({
+			include: [{ model: Category }, { model: Tag}], 
 		});
-		res.status(200).json(tag);
+		res.status(200).json(product);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Internal server error" });
@@ -21,17 +20,16 @@ router.get('/', async (req, res) => {
 // get one product
 router.get('/:id', async (req, res) => {
   // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
-  // This retrieves a product by id and the tags and category of said product, models of 'Category' and 'Tag' must be included.
+  // be sure to include its associated product and Tag data
+  // This retrieves a product by id and the tags and product of said product, models of 'product' and 'Tag' must be included.
 	try {
-		const product = await product.findByPk(req.params.id, {
-			include: [{ Category }],
-			include: [{ Tag }],
+		const product = await Product.findByPk(req.params.id, {
+			include: [{ model: Category }, { model: Tag }],
 		});
 		if (!product) {
 			return res.status(404).json({ error: "Product not found" });
 		}
-		res.status(200).json(categories);
+		res.status(200).json(product);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Internal server error" });
@@ -115,8 +113,19 @@ router.put('/:id', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
-  // delete one product by its `id` value
+router.delete('/:id', async (req, res) => {
+  	// This deletes a product by its id, it uses the model 'Product'.
+	try {
+		const product = await Product.findByPk(req.params.id);
+		if (!product) {
+			return res.status(404).json({ error: "Product not found" });
+		}
+		await product.destroy();
+		res.sendStatus(204).json(product);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: "Internal server error" });
+	}
 });
 
 module.exports = router;
