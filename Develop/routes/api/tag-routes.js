@@ -67,7 +67,8 @@ router.delete('/:id', async (req, res) => {
 			return;
 		}
 		await tag.destroy();
-		res.sendStatus(204).json(tag);
+		//res.sendStatus(204).json(tag);
+		return res.json(tag);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Internal server error" });

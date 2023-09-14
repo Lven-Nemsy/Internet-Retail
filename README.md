@@ -51,4 +51,4 @@ N/A
 
 https://github.com/Lven-Nemsy/Internet-Retail
 
-Add video link
+https://drive.google.com/file/d/1ZMC0smc614I9QLp_KX55AVqQJG1y2o9n/view

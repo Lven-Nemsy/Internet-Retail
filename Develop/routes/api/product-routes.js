@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
 			include: [{ model: Category }, { model: Tag}], 
 		});
 		res.status(200).json(product);
+    return;
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Internal server error" });
@@ -30,6 +31,7 @@ router.get('/:id', async (req, res) => {
 			return res.status(404).json({ error: "Product not found" });
 		}
 		res.status(200).json(product);
+    return;
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Internal server error" });
@@ -122,7 +124,8 @@ router.delete('/:id', async (req, res) => {
       return;
 		}
 		await product.destroy();
-		res.sendStatus(204).json(product);
+		//res.sendStatus(204).json(product);
+    return res.json(product);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Internal server error" });
