@@ -63,7 +63,8 @@ router.delete('/:id', async (req, res) => {
 	try {
 		const tag = await Tag.findByPk(req.params.id);
 		if (!tag) {
-			return res.status(404).json({ error: "Tag not found" });
+			res.status(404).json({ error: "Tag not found" });
+			return;
 		}
 		await tag.destroy();
 		res.sendStatus(204).json(tag);
